@@ -1,0 +1,88 @@
+# https://gist.github.com/dpcpnry/2dfc638cbe81b6b4763b592557acb522
+
+name: Build Downloadable APK
+
+on:
+  push:
+    branches: [master] # [main]
+
+# on: [workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: setup JAVA 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+        distribution: 'adopt'
+        cache: gradle
+        
+    - name: build APK debug with gradlew
+      run: | 
+        chmod +x gradlew
+        bash ./gradlew clean assembleDebug --stacktrace
+        
+      # bash ./gradlew clean assembleDebug --stacktrace
+  
+    - name: Find APK path
+      run: find . -name "*-debug.apk"
+      
+    
+      # use the result of the above find command for release path below
+      # It may look like: ./PROJECT/build/outputs/apk/debug/PROJECT-debug.apk
+      # PROJECT is normally your PROJECT name (often under it has: src/main/java)
+      # Or simply upload to somewhere else after knowing the apk path
+      # zip then curl upload it to https://transfer.sh
+      
+    - name: Prepare TAGVERUTC
+    # https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#environment-files
+      run: echo "TAGVERUTC=$(echo $(date -u +%Y%m%d.%H%M%S))" >> $GITHUB_ENV
+    
+    - name: Prepare DEBUG_APK_PATH
+      run: echo "DEBUG_APK_PATH=$(echo $(find . -name ""*-debug.apk""))" >> $GITHUB_ENV
+      # also works run: echo "DEBUG_APK_PATH=$(echo $(find . -name *-debug.apk))" >> $GITHUB_ENV
+    
+    - name: Prepare APKNAME
+      run: echo "APKNAME=$(echo $(basename ${{ env.DEBUG_APK_PATH }} ))" >> $GITHUB_ENV
+    
+    - name: Test echo DEBUG_APK_PATH
+      run: echo ${{env.DEBUG_APK_PATH}}
+    
+    # - name: Upload APK to transfer.sh
+    #   # 7z with password = @APKpassword9 before uploading
+      
+    #   run: | 
+    #     cp ${{env.DEBUG_APK_PATH}} ./${{env.APKNAME}}
+        
+    #     7z a -p@APKpassword9 ${{env.APKNAME}}.7z ${{env.APKNAME}}
+        
+    #     curl --upload-file ./${{env.APKNAME}} https://transfer.sh/${{env.APKNAME}}.7z
+    
+    - name: Upload AK
+      uses: actions/upload-artifact@v2
+      with:
+        name: app
+        path: ${{ env.DEBUG_APK_PATH }}
+        
+    - name: Create release and upload apk
+      uses: underwindfall/create-release-with-debugapk@v2.0.0
+      
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        # repeated release tag_name will cause error, remember to change the path accordingly
+        
+        # tag_name: v2.2.2
+        # asset_path: ./PROJECT/build/outputs/apk/debug/PROJECT-debug.apk
+        # asset_name: PROJECT-debug.apk
+        
+        # tag_name: v2.2
+        tag_name: ${{ env.TAGVERUTC }} 
+        asset_path: ${{ env.DEBUG_APK_PATH }} 
+        asset_name: ${{ env.APKNAME }} 
+        asset_content_type: application/zip
+        
