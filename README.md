@@ -1,6 +1,5 @@
 ## Upcal Android
 
-
 Upcal is an application that displays the Myanmar Uposatha calendar and Dawnrise time based on your location.
 
 It's a handy tool for those who follow the Myanmar Upposatha calendar.
