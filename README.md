@@ -1,6 +1,5 @@
 ## Upcal Android
 
-![Upcal Android](upcal.jpg)
 
 Upcal is an application that displays the Myanmar Uposatha calendar and Dawnrise time based on your location.
 
@@ -13,6 +12,9 @@ For iOS/iPadOS and the online web version of upCal, please visit [upcal reposito
 ## Download
 
 To download the latest version of the Upcal Android app, check [releases](https://github.com/vpnry/upcal-android/releases)
+
+
+![Upcal Android](upcal.jpg)
 
 
 # Attributions
@@ -92,5 +94,27 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+```
+
+## Misc dev
+
++ Reduce screenshot files:
+
+```bash
+jpegoptim --size=150k ./*.jpg
+
+```
+
++ gh CLI release
+
+```bash
+
+# Draft release, upcal_v2.2.0.apk must present
+
+gh release create v2.2.0 --title "Upcal v2.2.0" --notes "Click **> Assets** and download the apk file." upcal_v2.2.0.apk --draft
+
+# Then login github web, check and publish
+# Can publish directly by removing the --draft option
 
 ```
