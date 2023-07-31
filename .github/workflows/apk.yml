@@ -3,10 +3,16 @@
 name: Build Downloadable APK
 
 on:
-  push:
-    branches: [master] # [main]
+  # push:
+  #   branches:
+  #     - master
+  
+  # workflow_dispatch: trigger the workflow manually from the GitHub Actions page
+  # schedule:
+    # - cron: "10 0 15 * *" # monthly execution on 15th day
+  workflow_dispatch:
 
-# on: [workflow_dispatch]
+
 jobs:
   build:
     runs-on: ubuntu-latest

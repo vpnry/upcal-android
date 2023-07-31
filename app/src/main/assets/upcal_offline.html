@@ -190,8 +190,9 @@
 
 <script>
 /**
- * upCal - single HTML file version 2.2
+ * upCal - single HTML file version 2.4
  * Show Dawnrise calculation and Myanmar Uposatha dates
+ * Last modified 2023-07-31
  * Last modified 2021-10-25
  * 
  * Credits & Licenses: see the information below or https://github.com/vpnry/upcal
@@ -200,7 +201,7 @@
  * The code is very very very messy. And I want to keep it as a good memory.
  */
 
-const verTopShow = "v2.3";
+const verTopShow = "v2.4";
 // Do mot change this default errorLocation value
 const errorLocation = 9999.99999;
 
@@ -995,6 +996,7 @@ function getDawnAnyDateArray(
     useDynamicDawn_Formula2 = useDFORMULA,
     displayNauticalCivilDawn = DISPLAYNAU
 ) {
+  // for time table
     if (userlat == errorLocation || userlong == errorLocation) {
         return [
             `Cannot calculate dawnrise`,
@@ -1034,7 +1036,7 @@ function getDawnAnyDateArray(
         f2d(nauticalDawn.getHours()) + ":" + f2d(nauticalDawn.getMinutes());
 
     const civilValue =
-        f2d(civilDawn.getHours()) + ":" + f2d(civilDawn.getMinutes());
+         f2d(civilDawn.getHours()) + ":" + f2d(civilDawn.getMinutes());
 
     let userDawnValue2 =
         f2d(userDawn2.getHours()) + ":" + f2d(userDawn2.getMinutes());
@@ -1060,10 +1062,10 @@ function getDawnAnyDateArray(
 
     if (displayNauticalCivilDawn) {
         return [
-            `${userDawnValue} Dawn`,
+            `${userDawnValue} Dawnrise`,
             /*`${userDawnValue2} Dawn`,*/
             `${nauticalValue} Nautical`,
-            `${civilValue} Civil`,
+            `<span style='color:blue;font-weight:bold;'>${civilValue} Civil</span>`,
             `${sunrise} Sunrise`,
             `${solarNoon} Noon`,
             `${sunset} Set`,
@@ -1399,7 +1401,7 @@ function getDawnTodayArray(
             `${userDawnValue} Dawnrise`,
             /*`${userDawnValue2} Dawn`,*/
             `${nauticalValue} Nautical`,
-            `${civilValue} Civil`,
+              `<span style='color:blue;font-weight:bold;'>${civilValue} Civil</span>`,
             `${sunrise} Sunrise`,
             `${solarNoon} Noon`,
             `${sunset} Set`,
@@ -3150,7 +3152,11 @@ SOFTWARE.
   //*********************************************
 
   var dt = new Date();
-
+  // fix returning a month ahead of the expected value when the app is running on 31 date of month set date = 1
+  // thanks ven. Dhmdr S'porean for bug reporting
+    
+  dt.setDate(1);
+  
   if (isNumber(setthisyear)) {
     dt.setFullYear(Number(setthisyear));
   }
