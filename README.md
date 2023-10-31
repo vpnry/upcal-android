@@ -18,14 +18,6 @@ To download the latest version of the Upcal Android app, check [releases](https:
 
 # Attributions
 
-+ Android app Webview template
-
-```markdown
-Based on [slymax/webview](https://github.com/slymax/webview).
-It was modified to allow JavaScript alerts, request GPS permission etc.
-```
-
-
 + SunCalc (Vladimir Agafonkin)
 ```text
 
@@ -96,6 +88,14 @@ SOFTWARE.
 
 ```
 
++ Android app Webview template
+
+```markdown
+Based on [slymax/webview](https://github.com/slymax/webview).
+It was modified to allow JavaScript alerts, request GPS permission etc.
+```
+
+
 ## Misc dev
 
 + Reduce screenshot files:
@@ -109,9 +109,10 @@ jpegoptim --size=150k ./*.jpg
 
 ```bash
 
-# Draft release, upcal_v2.2.0.apk must present
+# Draft release, upcal_v2.5.0.apk must present
+# remember to update the version
 
-gh release create v2.2.0 --title "Upcal v2.2.0" --notes "Click **> Assets** and download the apk file." upcal_v2.2.0.apk --draft
+gh release create v2.5.0 --title "Upcal v2.5.0" --notes "Click **> Assets** and download the apk file." upcal_v2.5.0.apk --draft
 
 # Then login github web, check and publish
 # Can publish directly by removing the --draft option

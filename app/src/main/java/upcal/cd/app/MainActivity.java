@@ -120,7 +120,7 @@ public class MainActivity extends Activity {
                 isLocationPermissionDenied = false;
             } else {
                 // Location permission has been denied, show a message to the user
-                Toast.makeText(this, "Location permission is needed to auto filling location.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Location permission is needed to auto fill location lat & longitude.", Toast.LENGTH_LONG).show();
                 // Update isLocationPermissionDenied
                 isLocationPermissionDenied = true;
             }
