@@ -3,10 +3,11 @@
 name: Build Downloadable APK
 
 on:
-  push:
-    branches:
-      - main
-  
+  # push:
+  #   branches:
+  #     - main
+  workflow_dispatch:
+
   # workflow_dispatch: trigger the workflow manually from the GitHub Actions page
   # schedule:
     # - cron: "10 0 15 * *" # monthly execution on 15th day
@@ -20,10 +21,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: setup JAVA 11
+    - name: setup JAVA 17
       uses: actions/setup-java@v2
       with:
-        java-version: 11
+        java-version: 17
         distribution: 'adopt'
         cache: gradle
         
