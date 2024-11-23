@@ -6,8 +6,6 @@ on:
   # push:
   #   branches:
   #     - main
-  workflow_dispatch:
-
   # workflow_dispatch: trigger the workflow manually from the GitHub Actions page
   # schedule:
     # - cron: "10 0 15 * *" # monthly execution on 15th day
