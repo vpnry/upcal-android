@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>upCal - Uposatha Calendar & Dawn Rise</title>
         <style>
-           #gmt {text-align: center;color: green;font-weight: bold;font-size: small;margin-top: 3px;margin-bottom: 3px;}.darkmode {background: black;color: black;}.gpsButtonClass {background: white;color: blue;}#idclock {text-align: center;color: brown;font-weight: bold;font-size: large;margin-top: 3px;margin-bottom: 3px;}.r {text-align: right;}a {text-decoration: none;}.entireyear {font-size: small;}#upc {padding-left: 5px;padding-right: 5px;border-top: solid black 3px;border-bottom: solid black 3px;border-left: solid black 3px;border-right: solid black 3px;}body {font-size: large;background: cornsilk;color: rgb(14, 14, 114);/* cursor: pointer; this will cause blue highlighting on tap on Android Chrome */cursor: default;-webkit-tap-highlight-color: transparent;font-family: "DejaVu Sans", "Times New Roman", Times, serif;padding-left: 2px;width: 95%;margin-left: 2%;margin-right: 2%;}.sasana {font-size: x-small;text-align: right;/* padding: 2px; */color: grey;}.small {font-size: small;/* padding: 2px; */color: black;}.upCalTitle {font-size: small;text-align: center;font-weight: bold;padding: 2px;background: #ccc;}#tellFormula {font-size: x-small;padding: 2px;text-align: center;}#tellFormulaTd {border: dotted 1px #ccc;}.smm {padding: 2px;text-align: center;color: grey;}#inlatlong {font-size: small;padding: 2px;text-align: center;}#inplace {font-size: small;padding: 2px;text-align: center;}#informula {font-size: small;padding: 2px;text-align: center;}.grey {color: grey;font-size: small;}.sUpo {color: midnightblue;font-size: small;}.even {background: #ddd;}/* .now {} */.left {text-align: left;}.center {text-align: center;}.red {/* color: rgb(14, 14, 114); */border-left: solid 10px rgb(14, 14, 114);padding-left: 10px;font-size: large;font-weight: bold;}.tCenter {margin: 0 auto;font-size: small;color: grey;}#disclaimer {font-size: x-small;color: grey;text-align: left;}.tRight {text-align: right;}.tLeft {text-align: left;}.tdButtoncenter {text-align: center;}.dawnMonth {font-size: small;}.dawnMonth td {padding: 5px;}.bme {border: solid black 1px;}.nobor {border: unset;border: dotted brown 2px;}.headloca {border: unset;}li {margin-left: 0%;}.closetable {border: dotted 1px red;padding: 5px;border-radius: 5px;width: 50%;font-size: x-small;user-select: none;font-weight: bold;background: #ddd;text-align: center;color: midnightblue;}
+           #gmt {text-align: center;color: green;font-weight: bold;font-size: small;margin-top: 3px;margin-bottom: 3px;}.darkmode {background: black;color: black;}.gpsButtonClass {background: white;color: blue;}#idclock {text-align: center;color: brown;font-weight: bold;font-size: xx-large;margin-top: 3px;margin-bottom: 3px;}.r {text-align: right;}a {text-decoration: none;}.entireyear {font-size: small;}#upc {padding-left: 5px;padding-right: 5px;border-top: solid black 3px;border-bottom: solid black 3px;border-left: solid black 3px;border-right: solid black 3px;}body {font-size: large;background: cornsilk;color: rgb(14, 14, 114);/* cursor: pointer; this will cause blue highlighting on tap on Android Chrome */cursor: default;-webkit-tap-highlight-color: transparent;font-family: "DejaVu Sans", "Times New Roman", Times, serif;padding-left: 2px;width: 95%;margin-left: 2%;margin-right: 2%;}.sasana {font-size: x-small;text-align: right;/* padding: 2px; */color: grey;}.small {font-size: small;/* padding: 2px; */color: black;}.upCalTitle {font-size: small;text-align: center;font-weight: bold;padding: 2px;background: #ccc;}#tellFormula {font-size: x-small;padding: 2px;text-align: center;}#tellFormulaTd {border: dotted 1px #ccc;}.smm {padding: 2px;text-align: center;color: grey;}#inlatlong {font-size: small;padding: 2px;text-align: center;}#inplace {font-size: small;padding: 2px;text-align: center;}#informula {font-size: small;padding: 2px;text-align: center;}.grey {color: grey;font-size: small;}.sUpo {color: midnightblue;font-size: small;}.even {background: #ddd;}/* .now {} */.left {text-align: left;}.center {text-align: center;}.red {/* color: rgb(14, 14, 114); */border-left: solid 10px rgb(14, 14, 114);padding-left: 10px;font-size: large;font-weight: bold;}.tCenter {margin: 0 auto;font-size: small;color: grey;}#disclaimer {font-size: x-small;color: grey;text-align: left;}.tRight {text-align: right;}.tLeft {text-align: left;}.tdButtoncenter {text-align: center;}.dawnMonth {font-size: small;}.dawnMonth td {padding: 5px;}.bme {border: solid black 1px;}.nobor {border: unset;border: dotted brown 2px;}.headloca {border: unset;}li {margin-left: 0%;}.closetable {border: dotted 1px red;padding: 5px;border-radius: 5px;width: 50%;font-size: x-small;user-select: none;font-weight: bold;background: #ddd;text-align: center;color: midnightblue;}
             </style>
 
     </head>
@@ -420,17 +420,25 @@ const ceMmDateTime = returnClass_ceMmDateTime();
 function getLocationByGPS() {
   /* blankPageWhenDetectingGPS() */
   document.getElementById("gpsButton").textContent = `DETECTING, please wait ${icon_calm}...`;
-  const options = {
-    enableHighAccuracy: true,
-    timeout: 480000,
-    maximumAge: 0,
-  };
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
+  if (Android) {
+    // Using Android API to get location data
+    Android.getLocationByGPS();
   } else {
-    alert("Sorry, it seems that your device does not support geolocation function.");
+    // using web API to get location data
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 480000,
+      maximumAge: 0,
+    };
+
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
+    } else {
+      alert("Sorry, it seems that your device does not support geolocation function.");
+    }
   }
 }
+
 
 function handleSuccess(res) {
   let loca = res.coords;
@@ -440,7 +448,8 @@ function handleSuccess(res) {
 
   document.getElementById("lati").value = lat;
   document.getElementById("longi").value = long;
-  alert(`Successfully set location with GPS location ${acu}.\nPlease give a place name for this location, for example: My Room`);
+
+  alert(`Successfully set location with GPS location. Accuracy: ~ ${acu} meters.\n\nPlease give a place name for this location, for example: MY ROOM`);
   setTimeout(goSaveAllApplyButton, 500);
 }
 
