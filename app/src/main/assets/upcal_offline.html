@@ -15,12 +15,13 @@
     <script>
     /**
      ****************************
+     * Last modified 2024-11-23 *
      * Last modified 2023-10-31 *
      * Last modified 2023-07-31 *
      * Last modified 2021-10-25 *
      ****************************
      
-     * upCal version 2.5 (single HTML file)
+     * upCal version 2.6 (single HTML file)
      * Show Dawnrise calculation
      * & Myanmar Uposatha dates
      * https://github.com/vpnry/upcal
@@ -33,7 +34,7 @@
      * The code is very very very messy (many code snippets are written on a phone). Just let it be for memory.
      */
     
-    const verHTMLTopShow = "v2.5";
+    const verHTMLTopShow = "v2.6";
     const deviceGMT = 'GTM' + (new Date()).toString().split('GMT')[1];
     
     let ACCURACY = '';
@@ -1142,7 +1143,7 @@ function getUpoDatesOfAMonth(setthisyear, setthismonth, isWidget = false) {
   /* thanks ven. Dhmdr S'porean for bug reporting */
 
   dt.setDate(1);
-  /* since upCal V2.5 (single html file), we use the library provided M.d, dt.setDate(1) is now optional */
+  /* since upCal V2.6 (single html file), we use the library provided M.d, dt.setDate(1) is now optional */
 
   if (isNumber(setthisyear)) {
     ynumber = Number(setthisyear);
