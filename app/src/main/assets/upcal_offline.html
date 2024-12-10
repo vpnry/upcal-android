@@ -454,7 +454,7 @@ function handleSuccess(res) {
 }
 
 function handleError(e) {
-  let instr = `Please check: (1) Need to allow GPS (Location) permission for this app, (2) TURN ON GPS FIRST and wait for a while, (3) try upCal again.\n----------\----------\nTip: open a Maps app & detect your location successfully there first, then try upCal again.\nYou can also enter the location data manually ${icon_calm}.`;
+  let instr = `Please check: (1) Need to allow GPS (Location) permission for this app, (2) TURN ON GPS FIRST and wait for a while, (3) try upCal again.\n----------\----------\nTips: open a Maps app & detect your location successfully there first, then try upCal again.\nYou can also enter the location data manually ${icon_calm}.`;
   
   alert(`🛰 GPS Error: ${e["message"]}` + '\n\n' + instr);
 

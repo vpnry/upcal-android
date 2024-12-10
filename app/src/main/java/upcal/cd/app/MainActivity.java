@@ -28,6 +28,11 @@ import android.webkit.JavascriptInterface;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+
 public class MainActivity extends Activity {
 
     private WebView mWebView;
@@ -131,6 +136,8 @@ public class MainActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                         startActivity(intent);
+                        // Register a receiver to monitor GPS changes
+                        monitorGpsStatus();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -141,11 +148,48 @@ public class MainActivity extends Activity {
                 .show();
     }
 
+    // Monitor GPS status
+    private void monitorGpsStatus() {
+        // Create a BroadcastReceiver to listen for GPS status change
+        BroadcastReceiver gpsReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    // GPS is enabled, unregister receiver and restart app
+                    unregisterReceiver(this);
+                    restartApp();
+                }
+            }
+        };
+
+        // Register the receiver
+        IntentFilter filter = new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION);
+        registerReceiver(gpsReceiver, filter);
+    }
+
+    // Restart the application
+    private void restartApp() {
+        Intent intent = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        if (intent != null) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish(); // Close the current activity
+        }
+    }
+
     private void checkAndRequestPermissions() {
-        // Check if location permissions are granted
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[] {
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                    },
                     REQUEST_LOCATION_PERMISSION);
         }
     }
