@@ -1,3 +1,9 @@
+Archived repo.
+
+New vibe Flutter apps for major platforms here https://github.com/vpnry/upcal 
+
+
+
 ## Upcal Android
 
 Upcal is an application that displays the Myanmar Uposatha calendar and Dawnrise time based on your location.
